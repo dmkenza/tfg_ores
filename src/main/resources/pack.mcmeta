@@ -1,0 +1,8 @@
+{
+    "pack": {
+        "description": "Data for TFG mod",
+        "pack_format": 1,
+        "forge:resource_pack_format": 8,
+        "forge:data_pack_format": 9
+    }
+}

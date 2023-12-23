@@ -1,0 +1,170 @@
+/*
+ * Licensed under the EUPL, Version 1.2.
+ * You may obtain a copy of the Licence at:
+ * https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ */
+
+package kenza.tfg_ores.tfc;
+
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+
+import kenza.tfg_ores.TFGOres;
+import net.dries007.tfc.common.blocks.DecorationBlockRegistryObject;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.RegistryObject;
+
+import net.dries007.tfc.TerraFirmaCraft;
+import net.dries007.tfc.common.capabilities.food.FoodCapability;
+import net.dries007.tfc.mixin.accessor.CreativeModeTabAccessor;
+import net.dries007.tfc.util.SelfTests;
+
+
+
+@SuppressWarnings("unused")
+public final class KTFCCreativeTabs
+{
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, TFGOres.MOD_ID);
+
+
+//    public static final CreativeTabHolder EARTH = register("earth", () -> new ItemStack(TFCBlocks.ROCK_BLOCKS.get(Rock.QUARTZITE).get(Rock.BlockType.RAW).get()), TFCCreativeTabs::fillEarthTab);
+    public static final CreativeTabHolder ORES = register("ores1", () -> new ItemStack(KTFCItems.GRADED_ORES.get(KOre.ALUNITE).get(KOre.Grade.NORMAL).get()), KTFCCreativeTabs::fillOresTab);
+//    public static final CreativeTabHolder ROCKS = register("rock", () -> new ItemStack(TFCBlocks.ROCK_BLOCKS.get(Rock.ANDESITE).get(Rock.BlockType.RAW).get()), TFCCreativeTabs::fillRocksTab);
+//    public static final CreativeTabHolder METAL = register("metals", () -> new ItemStack(TFCItems.METAL_ITEMS.get(Metal.Default.WROUGHT_IRON).get(Metal.ItemType.INGOT).get()), TFCCreativeTabs::fillMetalTab);
+//    public static final CreativeTabHolder WOOD = register("wood", () -> new ItemStack(TFCBlocks.WOODS.get(Wood.DOUGLAS_FIR).get(Wood.BlockType.LOG).get()), TFCCreativeTabs::fillWoodTab);
+//    public static final CreativeTabHolder FOOD = register("food", () -> new ItemStack(TFCItems.FOOD.get(Food.RED_APPLE).get()), TFCCreativeTabs::fillFoodTab);
+//    public static final CreativeTabHolder FLORA = register("flora", () -> new ItemStack(TFCBlocks.PLANTS.get(Plant.GOLDENROD).get()), TFCCreativeTabs::fillPlantsTab);
+//    public static final CreativeTabHolder DECORATIONS = register("decorations", () -> new ItemStack(TFCBlocks.ALABASTER_BRICKS.get(DyeColor.CYAN).get()), TFCCreativeTabs::fillDecorationsTab);
+//    public static final CreativeTabHolder MISC = register("misc", () -> new ItemStack(TFCItems.FIRESTARTER.get()), TFCCreativeTabs::fillMiscTab);
+
+
+    private static CreativeTabHolder register(String name, Supplier<ItemStack> icon, CreativeModeTab.DisplayItemsGenerator displayItems)
+    {
+        final RegistryObject<CreativeModeTab> reg = CREATIVE_TABS.register(name, () -> CreativeModeTab.builder()
+                .icon(icon)
+                .title(Component.translatable("tfc.creative_tab." + name))
+                .displayItems(displayItems)
+                .build());
+        return new CreativeTabHolder(reg, displayItems);
+    }
+
+    public static Stream<CreativeModeTab.DisplayItemsGenerator> generators()
+    {
+//        return Stream.of(EARTH, ORES, ROCKS, METAL, WOOD, FOOD, FLORA, DECORATIONS, MISC).map(holder -> holder.generator);
+        return Stream.of(ORES).map(holder -> holder.generator);
+    }
+
+    public static void onBuildCreativeTab(BuildCreativeModeTabContentsEvent event)
+    {
+        final CreativeModeTabAccessor tab = (CreativeModeTabAccessor) event.getTab();
+        final Supplier<ItemStack> prevIcon = tab.tfc$getIconGenerator();
+
+        tab.tfc$setIconGenerator(() -> FoodCapability.setStackNonDecaying(prevIcon.get()));
+        event.getEntries().forEach(e -> FoodCapability.setStackNonDecaying(e.getKey()));
+    }
+
+
+    private static void fillOresTab(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output out)
+    {
+//        accept(out, TFCItems.RAW_IRON_BLOOM);
+//        accept(out, TFCItems.REFINED_IRON_BLOOM);
+        for (KOre ore : KOre.values())
+        {
+            if (ore.isGraded())
+            {
+                accept(out, KTFCItems.GRADED_ORES, ore, KOre.Grade.POOR);
+                accept(out, KTFCBlocks.SMALL_ORES, ore);
+                accept(out, KTFCItems.GRADED_ORES, ore, KOre.Grade.NORMAL);
+                accept(out, KTFCItems.GRADED_ORES, ore, KOre.Grade.RICH);
+            }
+        }
+        for (KOre ore : KOre.values())
+        {
+            if (!ore.isGraded())
+            {
+                accept(out, KTFCItems.ORES, ore);
+            }
+        }
+//        for (Gem gem : Gem.values())
+//        {
+//            accept(out, TFCItems.GEMS, gem);
+//            accept(out, TFCItems.GEM_DUST, gem);
+//        }
+//        for (OreDeposit deposit : OreDeposit.values())
+//        {
+//            TFCBlocks.ORE_DEPOSITS.values().forEach(map -> accept(out, map, deposit));
+//        }
+        for (KOre ore : KOre.values())
+        {
+            if (ore.isGraded())
+            {
+                KTFCBlocks.GRADED_ORES.values().forEach(map -> map.get(ore).values().forEach(reg -> accept(out, reg)));
+            }
+            else
+            {
+                KTFCBlocks.ORES.values().forEach(map -> accept(out, map, ore));
+            }
+        }
+    }
+
+
+    private static <T extends ItemLike, R extends Supplier<T>, K1, K2> void accept(CreativeModeTab.Output out, Map<K1, Map<K2, R>> map, K1 key1, K2 key2)
+    {
+        if (map.containsKey(key1) && map.get(key1).containsKey(key2))
+        {
+            out.accept(map.get(key1).get(key2).get());
+        }
+    }
+
+    private static <T extends ItemLike, R extends Supplier<T>, K> void accept(CreativeModeTab.Output out, Map<K, R> map, K key)
+    {
+        if (map.containsKey(key))
+        {
+            out.accept(map.get(key).get());
+        }
+    }
+
+    private static <T extends ItemLike, R extends Supplier<T>> void accept(CreativeModeTab.Output out, R reg)
+    {
+        if (reg.get().asItem() == Items.AIR)
+        {
+            TerraFirmaCraft.LOGGER.error("BlockItem with no Item added to creative tab: " + reg);
+            SelfTests.reportExternalError();
+            return;
+        }
+        out.accept(reg.get());
+    }
+
+    private static void accept(CreativeModeTab.Output out, DecorationBlockRegistryObject decoration)
+    {
+        out.accept(decoration.stair().get());
+        out.accept(decoration.slab().get());
+        out.accept(decoration.wall().get());
+    }
+
+
+
+    private static <T> void consumeOurs(IForgeRegistry<T> registry, Consumer<T> consumer)
+    {
+        for (T value : registry)
+        {
+            if (Objects.requireNonNull(registry.getKey(value)).getNamespace().equals(TerraFirmaCraft.MOD_ID))
+            {
+                consumer.accept(value);
+            }
+        }
+    }
+
+    public record CreativeTabHolder(RegistryObject<CreativeModeTab> tab, CreativeModeTab.DisplayItemsGenerator generator) {}
+}
