@@ -30,18 +30,20 @@ import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.mixin.accessor.CreativeModeTabAccessor;
 import net.dries007.tfc.util.SelfTests;
 
+import static net.dries007.tfc.TerraFirmaCraft.MOD_ID;
 
 
 @SuppressWarnings("unused")
 public final class KTFCCreativeTabs
 {
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, TFGOres.MOD_ID);
+//    public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, TFGOres.MOD_ID);
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
 
 
 //    public static final CreativeTabHolder EARTH = register("earth", () -> new ItemStack(TFCBlocks.ROCK_BLOCKS.get(Rock.QUARTZITE).get(Rock.BlockType.RAW).get()), TFCCreativeTabs::fillEarthTab);
     public static final CreativeTabHolder ORES = register("ores1", () -> new ItemStack(KTFCItems.GRADED_ORES.get(KOre.ALUNITE).get(KOre.Grade.NORMAL).get()), KTFCCreativeTabs::fillOresTab);
 //    public static final CreativeTabHolder ROCKS = register("rock", () -> new ItemStack(TFCBlocks.ROCK_BLOCKS.get(Rock.ANDESITE).get(Rock.BlockType.RAW).get()), TFCCreativeTabs::fillRocksTab);
-//    public static final CreativeTabHolder METAL = register("metals", () -> new ItemStack(TFCItems.METAL_ITEMS.get(Metal.Default.WROUGHT_IRON).get(Metal.ItemType.INGOT).get()), TFCCreativeTabs::fillMetalTab);
+    public static final CreativeTabHolder METAL = register("metals1", () -> new ItemStack(KTFCItems.METAL_ITEMS.get(KMetal.Default.LEAD).get(KMetal.ItemType.INGOT).get()), KTFCCreativeTabs::fillMetalTab);
 //    public static final CreativeTabHolder WOOD = register("wood", () -> new ItemStack(TFCBlocks.WOODS.get(Wood.DOUGLAS_FIR).get(Wood.BlockType.LOG).get()), TFCCreativeTabs::fillWoodTab);
 //    public static final CreativeTabHolder FOOD = register("food", () -> new ItemStack(TFCItems.FOOD.get(Food.RED_APPLE).get()), TFCCreativeTabs::fillFoodTab);
 //    public static final CreativeTabHolder FLORA = register("flora", () -> new ItemStack(TFCBlocks.PLANTS.get(Plant.GOLDENROD).get()), TFCCreativeTabs::fillPlantsTab);
@@ -59,11 +61,12 @@ public final class KTFCCreativeTabs
         return new CreativeTabHolder(reg, displayItems);
     }
 
-    public static Stream<CreativeModeTab.DisplayItemsGenerator> generators()
-    {
-//        return Stream.of(EARTH, ORES, ROCKS, METAL, WOOD, FOOD, FLORA, DECORATIONS, MISC).map(holder -> holder.generator);
-        return Stream.of(ORES).map(holder -> holder.generator);
-    }
+//    public static Stream<CreativeModeTab.DisplayItemsGenerator> generators()
+//    {
+////        return Stream.of(EARTH, ORES, ROCKS, METAL, WOOD, FOOD, FLORA, DECORATIONS, MISC).map(holder -> holder.generator);
+//        return Stream.of( ORES).map(holder -> holder.generator);
+////        return Stream.of(ORES).map(holder -> holder.generator);
+//    }
 
     public static void onBuildCreativeTab(BuildCreativeModeTabContentsEvent event)
     {
@@ -73,6 +76,108 @@ public final class KTFCCreativeTabs
         tab.tfc$setIconGenerator(() -> FoodCapability.setStackNonDecaying(prevIcon.get()));
         event.getEntries().forEach(e -> FoodCapability.setStackNonDecaying(e.getKey()));
     }
+
+    private static void fillMetalTab(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output out)
+    {
+        for (KMetal.Default metal : KMetal.Default.values())
+        {
+            for (KMetal.BlockType type : new KMetal.BlockType[] {
+                    KMetal.BlockType.ANVIL,
+                    KMetal.BlockType.BLOCK,
+                    KMetal.BlockType.BLOCK_SLAB,
+                    KMetal.BlockType.BLOCK_STAIRS,
+                    KMetal.BlockType.BARS,
+                    KMetal.BlockType.CHAIN,
+                    KMetal.BlockType.TRAPDOOR,
+                    KMetal.BlockType.LAMP,
+            })
+            {
+                accept(out, KTFCBlocks.METALS, metal, type);
+            }
+
+            accept(out, KTFCItems.METAL_ITEMS, metal, KMetal.ItemType.UNFINISHED_LAMP);
+
+//            if (metal == KMetal.Default.BRONZE)
+//                accept(out, TFCBlocks.BRONZE_BELL);
+//            else if (metal == KMetal.Default.BRASS)
+//            {
+//                accept(out, TFCBlocks.BRASS_BELL);
+//                accept(out, TFCItems.BRASS_MECHANISMS);
+//                accept(out, TFCItems.JACKS);
+//            }
+//            else if (metal == KMetal.Default.GOLD)
+//                out.accept(Blocks.BELL);
+//            else if (metal == KMetal.Default.RED_STEEL)
+//                accept(out, TFCItems.RED_STEEL_BUCKET);
+//            else if (metal == KMetal.Default.BLUE_STEEL)
+//                accept(out, TFCItems.BLUE_STEEL_BUCKET);
+//            else if (metal == KMetal.Default.WROUGHT_IRON)
+//                accept(out, TFCItems.WROUGHT_IRON_GRILL);
+//            else if (metal == KMetal.Default.STEEL)
+//            {
+//                accept(out, TFCBlocks.STEEL_PIPE);
+//                accept(out, TFCBlocks.STEEL_PUMP);
+//            }
+
+            for (KMetal.ItemType itemType : new KMetal.ItemType[] {
+                    KMetal.ItemType.INGOT,
+                    KMetal.ItemType.DOUBLE_INGOT,
+                    KMetal.ItemType.SHEET,
+                    KMetal.ItemType.DOUBLE_SHEET,
+                    KMetal.ItemType.ROD,
+
+                    KMetal.ItemType.TUYERE,
+
+                    KMetal.ItemType.PICKAXE,
+                    KMetal.ItemType.PROPICK,
+                    KMetal.ItemType.AXE,
+                    KMetal.ItemType.SHOVEL,
+                    KMetal.ItemType.HOE,
+                    KMetal.ItemType.CHISEL,
+                    KMetal.ItemType.HAMMER,
+                    KMetal.ItemType.SAW,
+                    KMetal.ItemType.KNIFE,
+                    KMetal.ItemType.SCYTHE,
+                    KMetal.ItemType.JAVELIN,
+                    KMetal.ItemType.SWORD,
+                    KMetal.ItemType.MACE,
+                    KMetal.ItemType.FISHING_ROD,
+                    KMetal.ItemType.SHEARS,
+
+                    KMetal.ItemType.HELMET,
+                    KMetal.ItemType.CHESTPLATE,
+                    KMetal.ItemType.GREAVES,
+                    KMetal.ItemType.BOOTS,
+
+                    KMetal.ItemType.SHIELD,
+                    KMetal.ItemType.HORSE_ARMOR,
+
+                    KMetal.ItemType.PICKAXE_HEAD,
+                    KMetal.ItemType.PROPICK_HEAD,
+                    KMetal.ItemType.AXE_HEAD,
+                    KMetal.ItemType.SHOVEL_HEAD,
+                    KMetal.ItemType.HOE_HEAD,
+                    KMetal.ItemType.CHISEL_HEAD,
+                    KMetal.ItemType.HAMMER_HEAD,
+                    KMetal.ItemType.SAW_BLADE,
+                    KMetal.ItemType.KNIFE_BLADE,
+                    KMetal.ItemType.SCYTHE_BLADE,
+                    KMetal.ItemType.JAVELIN_HEAD,
+                    KMetal.ItemType.SWORD_BLADE,
+                    KMetal.ItemType.MACE_HEAD,
+                    KMetal.ItemType.FISH_HOOK,
+
+                    KMetal.ItemType.UNFINISHED_HELMET,
+                    KMetal.ItemType.UNFINISHED_CHESTPLATE,
+                    KMetal.ItemType.UNFINISHED_GREAVES,
+                    KMetal.ItemType.UNFINISHED_BOOTS,
+            })
+            {
+                accept(out, KTFCItems.METAL_ITEMS, metal, itemType);
+            }
+        }
+    }
+
 
 
     private static void fillOresTab(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output out)
@@ -159,7 +264,7 @@ public final class KTFCCreativeTabs
     {
         for (T value : registry)
         {
-            if (Objects.requireNonNull(registry.getKey(value)).getNamespace().equals(TerraFirmaCraft.MOD_ID))
+            if (Objects.requireNonNull(registry.getKey(value)).getNamespace().equals(MOD_ID))
             {
                 consumer.accept(value);
             }

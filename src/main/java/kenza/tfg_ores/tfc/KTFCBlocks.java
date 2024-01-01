@@ -15,13 +15,16 @@ import java.util.function.ToIntFunction;
 import net.dries007.tfc.common.blocks.ExtendedProperties;
 import net.dries007.tfc.common.blocks.GroundcoverBlock;
 import net.dries007.tfc.common.blocks.TFCBlockStateProperties;
+import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.rock.Rock;
+import net.dries007.tfc.common.fluids.FluidId;
+import net.dries007.tfc.common.items.TFCItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SignBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.block.state.BlockState;
@@ -49,28 +52,42 @@ import static net.dries007.tfc.TerraFirmaCraft.*;
  * Whenever possible, avoid using hardcoded references to these, prefer tags or recipes.
  */
 @SuppressWarnings("unused")
-public final class KTFCBlocks
-{
+public final class KTFCBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, MOD_ID);
 
 
     // Ores
 
     public static final Map<Rock, Map<KOre, RegistryObject<Block>>> ORES = Helpers.mapOfKeys(Rock.class, rock ->
-        Helpers.mapOfKeys(KOre.class, ore -> !ore.isGraded(), ore ->
-            register(("ore/" + ore.name() + "/" + rock.name()), () -> ore.create(rock))
-        )
+            Helpers.mapOfKeys(KOre.class, ore -> !ore.isGraded(), ore ->
+                    register(("ore/" + ore.name() + "/" + rock.name()), () -> ore.create(rock))
+            )
     );
     public static final Map<Rock, Map<KOre, Map<KOre.Grade, RegistryObject<Block>>>> GRADED_ORES = Helpers.mapOfKeys(Rock.class, rock ->
-        Helpers.mapOfKeys(KOre.class, KOre::isGraded, ore ->
-            Helpers.mapOfKeys(KOre.Grade.class, grade ->
-                register(("ore/" + grade.name() + "_" + ore.name() + "/" + rock.name()), () -> ore.create(rock))
+            Helpers.mapOfKeys(KOre.class, KOre::isGraded, ore ->
+                    Helpers.mapOfKeys(KOre.Grade.class, grade ->
+                            register(("ore/" + grade.name() + "_" + ore.name() + "/" + rock.name()), () -> ore.create(rock))
+                    )
             )
-        )
     );
     public static final Map<KOre, RegistryObject<Block>> SMALL_ORES = Helpers.mapOfKeys(KOre.class, KOre::isGraded, type ->
-        register(("ore/small_" + type.name()), () -> GroundcoverBlock.looseOre(Properties.of().mapColor(MapColor.GRASS).strength(0.05F, 0.0F).sound(SoundType.NETHER_ORE).noCollission().pushReaction(PushReaction.DESTROY)))
+            register(("ore/small_" + type.name()), () -> GroundcoverBlock.looseOre(Properties.of().mapColor(MapColor.GRASS).strength(0.05F, 0.0F).sound(SoundType.NETHER_ORE).noCollission().pushReaction(PushReaction.DESTROY)))
     );
+
+    // Metals
+
+    public static final Map<KMetal.Default, Map<KMetal.BlockType, RegistryObject<Block>>> METALS = Helpers.mapOfKeys(KMetal.Default.class, metal ->
+            Helpers.mapOfKeys(KMetal.BlockType.class, type -> type.has(metal), type ->
+                    register(type.createName(metal), type.create(metal), type.createBlockItem(new Item.Properties()))
+            )
+    );
+
+    // Fluids
+
+    public static final Map<KMetal.Default, RegistryObject<LiquidBlock>> METAL_FLUIDS = Helpers.mapOfKeys(KMetal.Default.class, metal ->
+            registerNoItem("fluid/metal/" + metal.name(), () -> new LiquidBlock(KTFCFluids.METALS.get(metal).source(), Properties.copy(Blocks.LAVA).noLootTable()))
+    );
+
 
 
 //    public static void editBlockRequiredTools()
@@ -95,51 +112,42 @@ public final class KTFCBlocks
 //    }
 
 
-
-    public static ToIntFunction<BlockState> alwaysLit()
-    {
+    public static ToIntFunction<BlockState> alwaysLit() {
         return s -> 15;
     }
 
-    public static ToIntFunction<BlockState> lavaLoggedBlockEmission()
-    {
+    public static ToIntFunction<BlockState> lavaLoggedBlockEmission() {
         // This is resolved only at registration time, so we can't use the fast check (.getFluid() == Fluids.LAVA) and we have to use the slow check instead
         return state -> state.getValue(TFCBlockStateProperties.WATER_AND_LAVA).is(((IFluidLoggable) state.getBlock()).getFluidProperty().keyFor(Fluids.LAVA)) ? 15 : 0;
     }
 
-    public static ToIntFunction<BlockState> litBlockEmission(int lightValue)
-    {
+    public static ToIntFunction<BlockState> litBlockEmission(int lightValue) {
         return (state) -> state.getValue(BlockStateProperties.LIT) ? lightValue : 0;
     }
 
-    private static <B extends SignBlock> Map<Wood, Map<Metal.Default, RegistryObject<B>>> registerHangingSigns(String variant, BiFunction<ExtendedProperties, WoodType, B> factory)
-    {
+    private static <B extends SignBlock> Map<Wood, Map<Metal.Default, RegistryObject<B>>> registerHangingSigns(String variant, BiFunction<ExtendedProperties, WoodType, B> factory) {
         return Helpers.mapOfKeys(Wood.class, wood ->
-            Helpers.mapOfKeys(Metal.Default.class, Metal.Default::hasUtilities, metal -> register(
-                    "wood/planks/" + variant + "/" + metal.getSerializedName() + "/" + wood.getSerializedName(),
-                    () -> factory.apply(ExtendedProperties.of(wood.woodColor()).sound(SoundType.WOOD).noCollission().strength(1F).flammableLikePlanks().blockEntity(TFCBlockEntities.HANGING_SIGN).ticks(SignBlockEntity::tick), wood.getVanillaWoodType()),
-                    (Function<B, BlockItem>) null)
-            )
+                Helpers.mapOfKeys(Metal.Default.class, Metal.Default::hasUtilities, metal -> register(
+                        "wood/planks/" + variant + "/" + metal.getSerializedName() + "/" + wood.getSerializedName(),
+                        () -> factory.apply(ExtendedProperties.of(wood.woodColor()).sound(SoundType.WOOD).noCollission().strength(1F).flammableLikePlanks().blockEntity(TFCBlockEntities.HANGING_SIGN).ticks(SignBlockEntity::tick), wood.getVanillaWoodType()),
+                        (Function<B, BlockItem>) null)
+                )
         );
     }
 
-    private static <T extends Block> RegistryObject<T> registerNoItem(String name, Supplier<T> blockSupplier)
-    {
+    private static <T extends Block> RegistryObject<T> registerNoItem(String name, Supplier<T> blockSupplier) {
         return register(name, blockSupplier, (Function<T, ? extends BlockItem>) null);
     }
 
-    private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> blockSupplier)
-    {
+    private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> blockSupplier) {
         return register(name, blockSupplier, block -> new BlockItem(block, new Item.Properties()));
     }
 
-    private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> blockSupplier, Item.Properties blockItemProperties)
-    {
+    private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> blockSupplier, Item.Properties blockItemProperties) {
         return register(name, blockSupplier, block -> new BlockItem(block, blockItemProperties));
     }
 
-    private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> blockSupplier, @Nullable Function<T, ? extends BlockItem> blockItemFactory)
-    {
-        return RegistrationHelpers.registerBlock(KTFCBlocks.BLOCKS, KTFCItems.ITEMS, name, blockSupplier, blockItemFactory);
+    private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> blockSupplier, @Nullable Function<T, ? extends BlockItem> blockItemFactory) {
+        return RegistrationHelpers.registerBlock(TFCBlocks.BLOCKS, TFCItems.ITEMS, name, blockSupplier, blockItemFactory);
     }
 }

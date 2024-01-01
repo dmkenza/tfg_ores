@@ -19,6 +19,15 @@ fun getKeys(): List<String> {
     return METALS + ORES
 }
 
+val ORIG_METALS = listOf(
+    "bismuth", "bismuth_bronze", "black_bronze", "bronze", "brass",
+    "copper", "gold", "nickel", "rose_gold", "silver", "tin", "zinc",
+    "sterling_silver", "wrought_iron", "cast_iron", "pig_iron", "steel",
+    "black_steel", "blue_steel", "red_steel", "weak_steel", "weak_blue_steel",
+    "weak_red_steel", "high_carbon_steel", "high_carbon_black_steel",
+    "high_carbon_blue_steel", "high_carbon_red_steel"
+)
+
 val METALS = listOf(
     "lead"
 )
@@ -31,7 +40,6 @@ val ORES = listOf(
     "vanadium_magnetite",
     "pentlandite",
     "goethite",
-    "bastnasit",
     "tantalite",
     "calcite",
     "lepidolite",
@@ -50,7 +58,7 @@ val ORES = listOf(
     "neodymium",
     "soapstone",
     "talc",
-    "glaucosite",
+    "glauconite",
     "lithium",
     "bornite",
     "platinum",

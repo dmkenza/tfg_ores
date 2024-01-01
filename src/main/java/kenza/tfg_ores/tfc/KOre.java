@@ -23,10 +23,10 @@ public enum KOre
     STIBNITE(true),
     ZEOLITE(true),
     COBALTITE(true),
+
     VANADIUM_MAGNETITE(true),
     PENTLANDITE(true),
     GOETHITE(true),
-    BASTNASIT(true),
     TANTALITE(true),
     CALCITE(true),
     LEPIDOLITE(true),
@@ -46,6 +46,7 @@ public enum KOre
     SOAPSTONE(true),
     TALC(true),
     GLAUCONITE(true),
+
     LITHIUM(true),
     BORNITE(true),
     PLATINUM(true),

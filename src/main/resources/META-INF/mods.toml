@@ -21,7 +21,7 @@ modId="tfg_ores" #mandatory
 # see the associated build.gradle script for how to populate this completely automatically during a build
 version="${file.jarVersion}" #mandatory
  # A display name for the mod
-displayName="Rosia" #mandatory
+displayName="TerraFirmaGreg" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
@@ -29,7 +29,7 @@ displayName="Rosia" #mandatory
 # A file name (in the root of the mod JAR) containing a logo for display
 logoFile="resources/assets/tfg_ores/textures/logo.png" #optional
 # A text field displayed in the mod UI
-credits="Thanks for this example mod goes to Java" #optional
+credits="" #optional
 # A text field displayed in the mod UI
 authors="DmitryKenza" #optional
 # The description text for the mod (multi line!) (#mandatory)
@@ -55,6 +55,12 @@ TFG Ores
     mandatory=true
     # This version range declares a minimum of the current minecraft version up to but not including the next major version
     versionRange="[2.2.16,)"
+    ordering="AFTER"
+    side="BOTH"
+[[dependencies.tfg_ores]]
+    modId="gtceu"
+    mandatory=false
+    versionRange="[1.0.17,)"
     ordering="AFTER"
     side="BOTH"
 
