@@ -6,7 +6,7 @@ import java.nio.file.attribute.BasicFileAttributes
 import kotlin.io.path.extension
 import kotlin.io.path.name
 
-private fun deleteRecursive(fileOrDirectory: File) {
+fun deleteRecursive(fileOrDirectory: File) {
     if (fileOrDirectory.isDirectory()) for (child in fileOrDirectory.listFiles()) deleteRecursive(child)
     fileOrDirectory.delete()
 }

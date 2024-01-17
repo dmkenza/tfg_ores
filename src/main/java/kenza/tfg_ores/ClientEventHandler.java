@@ -51,7 +51,7 @@ public final class ClientEventHandler
 //        bus.addListener(ClientEventHandler::onTooltipFactoryRegistry);
 //        bus.addListener(ClientEventHandler::registerLayerDefinitions);
 //        bus.addListener(ClientEventHandler::registerPresetEditors);
-        bus.addListener(IngameOverlays::registerOverlays);
+//        bus.addListener(IngameOverlays::registerOverlays);
     }
 
 //    public static void registerColorHandlerBlocks(RegisterColorHandlersEvent.Block event)

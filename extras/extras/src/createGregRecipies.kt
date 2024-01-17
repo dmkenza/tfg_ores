@@ -63,7 +63,7 @@ val dataOldOres = listOf(
     "garnierite" to "gtceu:garnierite_crushed_ore",
     "limonite" to "gtceu:yellow_limonite_crushed_ore",
     "sphalerite" to "gtceu:sphalerite_crushed_ore",
-    "tetrahedrite" to "gtceu:tetrahedrite_crushed_ore",
+    "tetrahedrite" to "gtceu:tetrahedrite_crushed_ore"
 )
 
 val dataOldMinerals = listOf(
@@ -76,7 +76,7 @@ val dataOldMinerals = listOf(
     "sylvite" to "tfc:powder/sylvite" and "4",
     "borax" to "tfc:powder/flux" and "6",
     "halite" to "tfc:powder/salt" and "4",
-    "diamond" to "tfc:powder/diamond" and "4",
+    "diamond" to "tfc:powder/diamond" and "4"
 )
 
 private infix fun <A, B, C> Pair<A, B>.and(c: C): Triple<A, B, C> {
@@ -132,7 +132,7 @@ private fun writeMaceratorRecipe(
     oreCount: String,
     dust: String? = null,
     crushedOre: String? = null,
-    countResult: String? = null,
+    countResult: String? = null
 ) {
     val maceratorRecipiesPath = destinationFolder.path + "\\data\\gtceu\\recipes\\macerator\\"
 

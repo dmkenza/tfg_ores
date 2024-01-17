@@ -11,6 +11,7 @@ val langs = listOf("en_us.json")
 
 fun processLang() {
     val destLangs = Path.of(destinationFolder.path + "\\assets\\tfc\\lang")
+    val destBook = Path.of(destinationFolder.path + "\\assets\\tfc\\patchouli_books\\")
     val destLang = Path.of(destinationFolder.path + "\\assets\\tfc\\lang\\en_us.json")
 
 
@@ -25,6 +26,7 @@ fun processLang() {
             file.delete()
         }
 
+    deleteRecursive(destBook.toFile())
 
     val json = destLang.toFile().readText()
 
