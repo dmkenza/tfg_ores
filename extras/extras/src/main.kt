@@ -1,5 +1,3 @@
-import java.io.File
-
 fun main() {
 
 //    File("C:\\projects_mc\\work\\tfg_ores\\src\\main\\resources\\assets\\tfc\\textures\\item\\ore").mkdirs()
@@ -8,8 +6,12 @@ fun main() {
 
     copyAssests()
     leftovers()
-    createGregCasting()
+    //createGregHeatingItems()
     createGregRecipies()
+    replaceGregCasting()
+    replaceAnvilRecipies()
+    createGroudcovers()
+    processLang()
 }
 
 //data\tfc\recipes\casting

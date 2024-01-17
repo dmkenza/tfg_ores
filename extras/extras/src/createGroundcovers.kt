@@ -1,6 +1,9 @@
 import java.io.File
 
 fun main() {
+    createGroudcovers()
+}
+fun createGroudcovers() {
 
     val groundcoverPath = destinationFolder.path + "\\assets\\tfc\\models\\block\\groundcover"
 

@@ -3,19 +3,16 @@ import java.io.IOException
 import java.nio.file.*
 import java.nio.file.FileVisitResult.CONTINUE
 import java.nio.file.attribute.BasicFileAttributes
-import kotlin.io.path.extension
 
 fun main() {
-    createGregCasting()
+    replaceAnvilRecipies()
 }
 
 private val recipiesTypes = listOf(
+    //"anvil", "welding"
     "anvil"
 )
 
-//private val secondsTypes = listOf(
-//    "metals"
-//)
 
 fun replaceAnvilRecipies() {
 
@@ -46,7 +43,7 @@ private fun process( destFolder : Path, srcFolder: Path) {
         }
 
         override fun visitFile(path: Path, attrs: BasicFileAttributes): FileVisitResult {
-            val content = path.toFile().readText()
+            val json = path.toFile().readText()
 
             val file = path.toFile();
             if (file.extension != "json") {
@@ -58,15 +55,20 @@ private fun process( destFolder : Path, srcFolder: Path) {
             }
 
             (ORIG_METALS + METALS)
-                .filter { metal ->
-                    content.contains("tfc:metal/$metal")
+                .firstOrNull { metal ->
+                    json.contains("/$metal\"")
                 }
-                .forEach { metal ->
-                    val json = content
-                        .replaceFirst("fluid\": \"tfc:metal/$metal\"", "fluid\": \"gtceu:$metal\"")
-                        .replaceFirst("ingredient\": \"tfc:metal/$metal\"", "ingredient\": \"gtceu:$metal\"")
+                ?.let { metal ->
+                    val newJson = json
+                        .replaceFirst("tag\": \"forge:sheets/$metal\"", "item\": \"tfc:metal/sheet/$metal\"")
+                        .replaceFirst("tag\": \"forge:double_sheets/$metal\"", "item\": \"tfc:metal/double_sheet/$metal\"")
 
-                    destFile.writeText(json)
+                        .replaceFirst("tag\": \"forge:sheets/$metal\"", "item\": \"tfc:metal/sheet/$metal\"")
+                        .replaceFirst("tag\": \"forge:double_sheets/$metal\"", "item\": \"tfc:metal/double_sheet/$metal\"")
+
+                    if(newJson != json){
+                        destFile.writeText(newJson)
+                    }
                 }
 
 

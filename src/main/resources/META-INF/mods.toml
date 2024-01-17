@@ -60,7 +60,7 @@ TFG Ores
 [[dependencies.tfg_ores]]
     modId="gtceu"
     mandatory=false
-    versionRange="[1.0.17,)"
+    versionRange="[1.0.0,)"
     ordering="AFTER"
     side="BOTH"
 

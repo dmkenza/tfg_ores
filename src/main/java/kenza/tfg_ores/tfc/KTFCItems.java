@@ -38,7 +38,7 @@ public final class KTFCItems
 {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, MOD_ID);
-    public static final RegistryObject<Item> PADDLE = register("paddle", () -> new DebugStick(new Item.Properties()));
+    //public static final RegistryObject<Item> PADDLE = register("paddle", () -> new DebugStick(new Item.Properties()));
 
     // Ores
 

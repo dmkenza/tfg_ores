@@ -3,26 +3,28 @@ import java.io.IOException
 import java.nio.file.*
 import java.nio.file.FileVisitResult.CONTINUE
 import java.nio.file.attribute.BasicFileAttributes
-import kotlin.io.path.extension
 
 fun main() {
-    createGregCasting()
+    replaceGregCasting()
 }
 
-private fun deleteRecursive(fileOrDirectory: File) {
-    if (fileOrDirectory.isDirectory()) for (child in fileOrDirectory.listFiles()) deleteRecursive(child)
-    fileOrDirectory.delete()
-}
+
+//replace fluid of TFC Metals with Gregtech
 
 private val recipiesTypes = listOf(
-    "heating\\metal", "casting" , "heating\\ore", "heating"
+    "heating\\metal", "casting", "heating\\ore", "heating"
 )
 
 private val secondsTypes = listOf(
     "metals"
 )
 
-fun createGregCasting() {
+//this metals aren't in Greg. Ignore replacement.
+private val ignoredMetals = listOf(
+    "weak_blue_steel", "weak_red_steel", "weak_steel"
+)
+
+fun replaceGregCasting() {
 
     // new metals
     recipiesTypes.forEach { type ->
@@ -57,7 +59,7 @@ fun createGregCasting() {
 
 }
 
-private fun process( destFolder : Path, srcFolder: Path) {
+private fun process(destFolder: Path, srcFolder: Path) {
 
     val fileVisitor = object : FileVisitor<Path> {
         override fun preVisitDirectory(dir: Path, attrs: BasicFileAttributes): FileVisitResult {
@@ -78,7 +80,7 @@ private fun process( destFolder : Path, srcFolder: Path) {
 
             (ORIG_METALS + METALS)
                 .filter { metal ->
-                    content.contains("tfc:metal/$metal")
+                    content.contains("tfc:metal/$metal") && ignoredMetals.contains(metal).not()
                 }
                 .forEach { metal ->
                     val json = content
@@ -103,30 +105,4 @@ private fun process( destFolder : Path, srcFolder: Path) {
 
     Files.walkFileTree(srcFolder, setOf(FileVisitOption.FOLLOW_LINKS), Int.MAX_VALUE, fileVisitor)
     println("Files containing specified words have been copied to the destination folder.")
-}
-
-
-fun String.replaceFirstAftere(afterWord: String, old: String, new: String): String {
-
-    // Find the index of the word in the original string
-    val indexOfWord = this.indexOf(afterWord)
-
-    // If the word is found, replace the first occurrence of "Hello" after that index
-    return if (indexOfWord != -1) {
-        this.substring(0, indexOfWord + afterWord.length) +
-                this.substring(indexOfWord + afterWord.length)
-                    .replaceFirst(old, new)
-    } else {
-        this
-    }
-}
-
-// Extension function to replace the last occurrence of a substring in a string
-fun String.replaceLast(oldValue: String, newValue: String): String {
-    val lastIndex = lastIndexOf(oldValue)
-    return if (lastIndex != -1) {
-        substring(0, lastIndex) + newValue + substring(lastIndex + oldValue.length)
-    } else {
-        this
-    }
 }

@@ -27,7 +27,7 @@ apply plugin: 'org.spongepowered.mixin'
 
 
 
-version = '1.0.0-1.20.1'
+version = '0.1.0-1.20.1'
 group = 'kenza.tfg_ores' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'tfg_ores'
 
@@ -62,7 +62,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
             property 'forge.enabledGameTestNamespaces', 'tfg_ores'
             mods {
-                rosia {
+                tfg_ores {
                     source sourceSets.main
                 }
             }
@@ -75,7 +75,7 @@ minecraft {
             property 'forge.enabledGameTestNamespaces', 'tfg_ores'
 
             mods {
-                rosia {
+                tfg_ores {
                     source sourceSets.main
                 }
             }
@@ -103,7 +103,7 @@ minecraft {
             property 'forge.enabledGameTestNamespaces', 'rosia'
 
             mods {
-                rosia {
+                tfg_ores {
                     source sourceSets.main
                 }
             }
@@ -120,7 +120,7 @@ minecraft {
             args '--mod', 'rosia', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                rosia {
+                tfg_ores {
                     source sourceSets.main
                 }
             }
