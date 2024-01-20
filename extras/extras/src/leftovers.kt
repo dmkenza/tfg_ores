@@ -1,15 +1,24 @@
+import com.google.gson.reflect.TypeToken
 import java.io.File
+import java.lang.reflect.Type
+import java.nio.file.Path
 
 data class JsonData(
     var replace: Boolean = false,
     var values: ArrayList<String> = ArrayList()
 )
 
+fun main() {
+    leftovers()
+}
+
+
 
 fun leftovers() {
     leftovers.forEach { folderPath ->
         processFilesInFolder(folderPath)
     }
+    clearLeftoversInTags()
 }
 
 private fun processFilesInFolder(folderPath: String) {
@@ -64,4 +73,23 @@ private fun leftoversSpruceUp(jsonFilePath: String) {
 
     println("JSON file updated successfully.")
     println("$jsonFilePath")
+}
+
+val extraLeftovers = listOf(
+    "tfc:cauldron/metal/lead", "tfc:calcite"
+)
+
+//mineable\pickaxe.json contains unwanted elements
+fun clearLeftoversInTags(){
+    val mineableFile = Path.of(destinationFolder.path + "\\data\\minecraft\\tags\\blocks\\mineable\\pickaxe.json")
+
+    val json = mineableFile.toFile().readText()
+    val jsonData = gson.fromJson(json, JsonData::class.java)
+
+    extraLeftovers.map { x ->
+        jsonData.values.remove(x)
+    }
+
+    mineableFile.toFile().writeText( gson.toJson(jsonData))
+
 }
