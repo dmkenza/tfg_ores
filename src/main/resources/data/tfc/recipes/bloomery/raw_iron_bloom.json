@@ -6,7 +6,7 @@
   },
   "fluid": {
     "ingredient": "gtceu:iron",
-    "amount": 144
+    "amount": 100
   },
   "catalyst": {
     "item": "minecraft:charcoal"

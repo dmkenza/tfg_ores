@@ -86,6 +86,7 @@ private fun process(destFolder: Path, srcFolder: Path) {
                     val json = content
                         .replaceFirst("fluid\": \"tfc:metal/$metal\"", "fluid\": \"gtceu:$metal\"")
                         .replaceFirst("ingredient\": \"tfc:metal/$metal\"", "ingredient\": \"gtceu:$metal\"")
+                        .replaceFirst("\"fluid\": \"gtceu:cast_iron\",", "\"fluid\": \"gtceu:iron\",")
 
                     destFile.writeText(json)
                 }

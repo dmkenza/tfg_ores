@@ -53,24 +53,24 @@ class Vein(NamedTuple):
 
     @staticmethod
     def new(
-        ore: str,
-        rarity: int,
-        size: int,
-        min_y: int,
-        max_y: int,
-        density: float,
-        rocks: tuple[str, ...],
+            ore: str,
+            rarity: int,
+            size: int,
+            min_y: int,
+            max_y: int,
+            density: float,
+            rocks: tuple[str, ...],
 
-        vein_type: str = 'cluster',
-        grade: tuple[int, int, int] = (),
-        biomes: str = None,
-        height: int = 2,  # For disc type veins, `size` is the width
-        radius: int = 5,  # For pipe type veins, `size` is the height
-        deposits: bool = False,
-        indicator: int = 12,  # Indicator rarity
-        deep_indicator: tuple[int, int] = (1, 0),  # Pair of (rarity, count) for underground indicators
-        project: str | bool = None,  # Projects to surface. Either True or 'offset'
-        near_lava: bool | None = None,
+            vein_type: str = 'cluster',
+            grade: tuple[int, int, int] = (),
+            biomes: str = None,
+            height: int = 2,  # For disc type veins, `size` is the width
+            radius: int = 5,  # For pipe type veins, `size` is the height
+            deposits: bool = False,
+            indicator: int = 12,  # Indicator rarity
+            deep_indicator: tuple[int, int] = (1, 0),  # Pair of (rarity, count) for underground indicators
+            project: str | bool = None,  # Projects to surface. Either True or 'offset'
+            near_lava: bool | None = None,
     ):
         assert 0 < density < 1
         assert isinstance(rocks, tuple), 'Forgot the trailing comma in a single element tuple: %s' % repr(rocks)
@@ -304,7 +304,7 @@ METAL_ITEMS: Dict[str, MetalItem] = {
 }
 METAL_ITEMS_AND_BLOCKS: Dict[str, MetalItem] = {**METAL_ITEMS, **METAL_BLOCKS}
 METAL_TOOL_HEADS = (
-'chisel', 'hammer', 'hoe', 'javelin', 'knife', 'mace', 'pickaxe', 'propick', 'saw', 'scythe', 'shovel', 'sword', 'axe')
+    'chisel', 'hammer', 'hoe', 'javelin', 'knife', 'mace', 'pickaxe', 'propick', 'saw', 'scythe', 'shovel', 'sword', 'axe')
 
 ORES: Dict[str, Ore] = {
     'galena': Ore('lead', True, 'copper', 'lead'),
@@ -390,13 +390,15 @@ ORE_GRADES: Dict[str, OreGrade] = {
     'rich': OreGrade(7)
 }
 DEFAULT_FORGE_ORE_TAGS: Tuple[str, ...] = (
-'coal', 'diamond', 'emerald', 'gold', 'iron', 'lapis', 'netherite_scrap', 'quartz', 'redstone')
+    'coal', 'diamond', 'emerald', 'gold', 'iron', 'lapis', 'netherite_scrap', 'quartz', 'redstone')
 
 POOR = 70, 25, 5  # = 1550
 NORMAL = 35, 40, 25  # = 2400
 RICH = 15, 25, 60  # = 2550
 
-KORE_CHANCE = 90
+SURFACE_KORE_CHANCE = 90
+KORE_CHANCE = 100
+DEEP_KORE_CHANCE = 110
 
 ORE_VEINS: dict[str, Vein] = {
     # Copper
@@ -405,9 +407,9 @@ ORE_VEINS: dict[str, Vein] = {
     # All copper have high indicator rarity because it's necessary early on
 
 
-    'surface_stibnite': Vein.new('stibnite', KORE_CHANCE, 20, 40, 130, 0.3, ('phyllite', 'diorite'), grade=POOR, indicator=6),
-    'surface_galena': Vein.new('galena', KORE_CHANCE, 20, 40, 130, 0.3, ('granite', "gneiss"), grade=POOR, indicator=6),
-    'surface_zeolite': Vein.new('zeolite', KORE_CHANCE, 20, 40, 130, 0.2, ('gabbro', 'shale'), grade=POOR, indicator=6),
+    'surface_stibnite': Vein.new('stibnite', SURFACE_KORE_CHANCE, 20, 40, 130, 0.3, ('phyllite', 'diorite'), grade=POOR, indicator=6),
+    'surface_galena': Vein.new('galena', SURFACE_KORE_CHANCE, 20, 40, 130, 0.3, ('granite', "gneiss"), grade=POOR, indicator=6),
+    'surface_zeolite': Vein.new('zeolite', SURFACE_KORE_CHANCE, 20, 40, 130, 0.2, ('gabbro', 'shale'), grade=POOR, indicator=6),
     'normal_galena': Vein.new('galena', KORE_CHANCE, 30, 0, 70, 0.5, ('granite', "gneiss"), grade=NORMAL, indicator=2,),
     'normal_zeolite': Vein.new('zeolite', KORE_CHANCE, 40, 0, 70, 0.5, ('gabbro', 'shale'), grade=NORMAL, indicator=0,),
     'normal_cobaltite': Vein.new('cobaltite', KORE_CHANCE, 30, 0, 70, 0.5, ('gneiss', 'schist'), grade=NORMAL, indicator=0,),
@@ -424,28 +426,28 @@ ORE_VEINS: dict[str, Vein] = {
     'normal_tricalcium_phosphate': Vein.new('tricalcium_phosphate', KORE_CHANCE, 30, -30, 70, 0.5, ('claystone', 'limestone',), grade=NORMAL, indicator=0, deep_indicator=(1, 5)),
     'normal_asbestos': Vein.new('asbestos', KORE_CHANCE, 30, -30, 70, 0.5, ('conglomerate', 'marble'), grade=NORMAL, indicator=0, deep_indicator=(1, 5)),
     'normal_pyrochlore': Vein.new('pyrochlore', KORE_CHANCE, 30, -30, 70, 0.5, ('gabbro', 'marble'), grade=NORMAL, indicator=0, deep_indicator=(1, 5)),
-    'normal_mica': Vein.new('mica', KORE_CHANCE, 30, -30, 70, 0.5, ('rhyolite','quartzite'), grade=NORMAL, indicator=0, deep_indicator=(1, 5)),
+    'normal_mica': Vein.new('mica', KORE_CHANCE, 30, -30, 70, 0.5, ('claystone','quartzite'), grade=NORMAL, indicator=0, deep_indicator=(1, 5)),
     'normal_kyanite': Vein.new('kyanite', KORE_CHANCE, 40, -80, 20, 0.5, ('shale', 'quartzite'), grade=RICH, indicator=0, deep_indicator=(1, 4)),
     'normal_alunite': Vein.new('alunite', KORE_CHANCE, 30, -30, 70, 0.5, ('diorite','quartzite'), grade=NORMAL, indicator=0, deep_indicator=(1, 5)),
     'normal_electrotine': Vein.new('electrotine', KORE_CHANCE, 40, -80, 20, 0.5, ('gabbro', 'basalt'), grade=RICH, indicator=0, deep_indicator=(1, 4)),
-    'normal_diatomite': Vein.new('diatomite', KORE_CHANCE, 30, -30, 70, 0.5, ('rhyolite', 'shale'), grade=NORMAL, indicator=0, deep_indicator=(1, 5)),
-    'normal_neodymium': Vein.new('neodymium', KORE_CHANCE, 30, -30, 70, 0.5, ('rhyolite', 'shale'), grade=NORMAL, indicator=0, deep_indicator=(1, 5)),
+    'normal_diatomite': Vein.new('diatomite', KORE_CHANCE, 30, -30, 70, 0.5, ('claystone', 'marble'), grade=NORMAL, indicator=0, deep_indicator=(1, 5)),
+    'normal_neodymium': Vein.new('neodymium', KORE_CHANCE, 30, -30, 70, 0.5, ('rhyolite', 'marble'), grade=NORMAL, indicator=0, deep_indicator=(1, 5)),
     'normal_soapstone': Vein.new('soapstone', KORE_CHANCE, 30, -30, 70, 0.5, ('gneiss', 'schist'), grade=NORMAL, indicator=0,  deep_indicator=(1, 5)),
-    'normal_talc': Vein.new('talc', KORE_CHANCE, 30, -30, 70, 0.5, ('rhyolite', 'shale'), grade=NORMAL, indicator=0, deep_indicator=(1, 5)),
+    'normal_talc': Vein.new('talc', KORE_CHANCE, 30, -30, 70, 0.5, ('claystone', 'shale'), grade=NORMAL, indicator=0, deep_indicator=(1, 5)),
     'normal_glauconite': Vein.new('glauconite', KORE_CHANCE, 30, -30, 70, 0.5, ('rhyolite', 'shale'), grade=NORMAL, indicator=0, deep_indicator=(1, 5)),
-    'deep_lithium': Vein.new('lithium', KORE_CHANCE, 25, -80, 0, 0.4, ('rhyolite', 'shale'), grade=NORMAL, indicator=0, deep_indicator=(1, 3)),
-    'deep_bornite': Vein.new('bornite', KORE_CHANCE, 30, -80, 0, 0.5, ('gneiss', 'diorite'), grade=RICH, indicator=0, deep_indicator=(1, 3)),
-    'deep_platinum': Vein.new('platinum', KORE_CHANCE, 25, -80, 0, 0.4, ('andesite', 'rhyolite'), grade=NORMAL, indicator=0, deep_indicator=(1, 3)),
-    'deep_wulfenite': Vein.new('wulfenite', KORE_CHANCE, 30, -80, 0, 0.5, ('basalt', 'phyllite'), grade=RICH, indicator=0, deep_indicator=(1, 3)),
-    'deep_molybdenum': Vein.new('molybdenum', KORE_CHANCE, 18, -80, 0, 0.4, ('gneiss', 'schist'), grade=NORMAL, indicator=0, deep_indicator=(1, 3)),
-    'deep_plutonium': Vein.new('plutonium', KORE_CHANCE, 40, -80, 0, 0.6, ('granite', 'gneiss'), grade=RICH,indicator=0, deep_indicator=(1, 3)),
-    'deep_tungstate': Vein.new('tungstate', KORE_CHANCE, 25, -80, 0, 0.4, ('gneiss', 'shale'), grade=NORMAL, indicator=0, deep_indicator=(1, 3)),
-    'deep_scheelite': Vein.new('scheelite', KORE_CHANCE, 30, -80, 0, 0.5, ('rhyolite', 'gneiss'), grade=RICH, indicator=0, deep_indicator=(1, 3)),
-    'deep_palladium': Vein.new('palladium', KORE_CHANCE, 25, -80, 0, 0.4, ('quartzite', 'phyllite'), grade=NORMAL, indicator=0, deep_indicator=(1, 3)),
-    'deep_powellite': Vein.new('powellite', KORE_CHANCE, 30, -80, 0, 0.5, ('gneiss', 'schist'), grade=RICH, indicator=0, deep_indicator=(1, 3)),
-    'deep_naquadah': Vein.new('naquadah', KORE_CHANCE, 40, -80, 0, 0.6, ('gneiss', 'shale',), grade=RICH, indicator=0, deep_indicator=(1, 3)),
-    'deep_uraninite': Vein.new('uraninite', KORE_CHANCE, 40, -80, 0, 0.6, ('gneiss', 'shale',), grade=RICH, indicator=0, deep_indicator=(1, 3)),
-    'deep_pitchblende': Vein.new('pitchblende', KORE_CHANCE, 40, -80, 0, 0.6, ('gneiss', 'shale',), grade=RICH, indicator=0, deep_indicator=(1, 3)),
+    'deep_lithium': Vein.new('lithium', DEEP_KORE_CHANCE, 25, -80, 0, 0.4, ('rhyolite', 'shale'), grade=NORMAL, indicator=0, deep_indicator=(1, 3)),
+    'deep_bornite': Vein.new('bornite', DEEP_KORE_CHANCE, 30, -80, 0, 0.5, ('chalk', 'diorite'), grade=RICH, indicator=0, deep_indicator=(1, 3)),
+    'deep_platinum': Vein.new('platinum', DEEP_KORE_CHANCE, 25, -80, 0, 0.4, ('andesite', 'rhyolite'), grade=NORMAL, indicator=0, deep_indicator=(1, 3)),
+    'deep_wulfenite': Vein.new('wulfenite', DEEP_KORE_CHANCE, 30, -80, 0, 0.5, ('basalt', 'phyllite'), grade=RICH, indicator=0, deep_indicator=(1, 3)),
+    'deep_molybdenum': Vein.new('molybdenum', DEEP_KORE_CHANCE, 18, -80, 0, 0.4, ('gneiss', 'schist'), grade=NORMAL, indicator=0, deep_indicator=(1, 3)),
+    'deep_plutonium': Vein.new('plutonium', DEEP_KORE_CHANCE, 25, -80, 0, 0.6, ('granite', 'gneiss'), grade=RICH,indicator=0, deep_indicator=(1, 3)),
+    'deep_tungstate': Vein.new('tungstate', DEEP_KORE_CHANCE, 25, -80, 0, 0.4, ('gneiss', 'shale'), grade=NORMAL, indicator=0, deep_indicator=(1, 3)),
+    'deep_scheelite': Vein.new('scheelite', DEEP_KORE_CHANCE, 30, -80, 0, 0.5, ('chert', 'gneiss'), grade=RICH, indicator=0, deep_indicator=(1, 3)),
+    'deep_palladium': Vein.new('palladium', DEEP_KORE_CHANCE, 25, -80, 0, 0.4, ('quartzite', 'phyllite'), grade=NORMAL, indicator=0, deep_indicator=(1, 3)),
+    'deep_powellite': Vein.new('powellite', DEEP_KORE_CHANCE, 30, -80, 0, 0.5, ('chalk', 'schist'), grade=RICH, indicator=0, deep_indicator=(1, 3)),
+    'deep_naquadah': Vein.new('naquadah', DEEP_KORE_CHANCE, 25, -80, 0, 0.6, ('diorite', 'shale',), grade=RICH, indicator=0, deep_indicator=(1, 3)),
+    'deep_uraninite': Vein.new('uraninite', DEEP_KORE_CHANCE, 25, -80, 0, 0.6, ('chalk', 'shale',), grade=RICH, indicator=0, deep_indicator=(1, 3)),
+    'deep_pitchblende': Vein.new('pitchblende', DEEP_KORE_CHANCE, 25, -80, 0, 0.6, ('gneiss', 'shale',), grade=RICH, indicator=0, deep_indicator=(1, 3)),
 
 
     'surface_native_copper': Vein.new('native_copper', 24, 20, 40, 130, 0.25, ('igneous_extrusive',), grade=POOR, deposits=True, indicator=14),
@@ -536,8 +538,8 @@ ORE_VEINS: dict[str, Vein] = {
 }
 
 ALL_MINERALS = (
-'bituminous_coal', 'lignite', 'graphite', 'cinnabar', 'cryolite', 'saltpeter', 'sulfur', 'sylvite', 'borax', 'gypsum',
-'lapis_lazuli', 'halite', 'diamond', 'emerald', 'sulfur', 'amethyst', 'opal')
+    'bituminous_coal', 'lignite', 'graphite', 'cinnabar', 'cryolite', 'saltpeter', 'sulfur', 'sylvite', 'borax', 'gypsum',
+    'lapis_lazuli', 'halite', 'diamond', 'emerald', 'sulfur', 'amethyst', 'opal')
 
 DEPOSIT_RARES: Dict[str, str] = {
     'granite': 'topaz',
@@ -563,16 +565,16 @@ DEPOSIT_RARES: Dict[str, str] = {
 }
 
 ROCK_BLOCK_TYPES = (
-'raw', 'hardened', 'bricks', 'cobble', 'gravel', 'smooth', 'mossy_cobble', 'mossy_bricks', 'cracked_bricks', 'chiseled',
-'spike', 'loose', 'pressure_plate', 'button')
+    'raw', 'hardened', 'bricks', 'cobble', 'gravel', 'smooth', 'mossy_cobble', 'mossy_bricks', 'cracked_bricks', 'chiseled',
+    'spike', 'loose', 'pressure_plate', 'button')
 ROCK_BLOCKS_IN_JSON = ('raw', 'hardened', 'cobble', 'gravel', 'spike', 'loose')
 CUTTABLE_ROCKS = ('raw', 'bricks', 'cobble', 'smooth', 'mossy_cobble', 'mossy_bricks', 'cracked_bricks')
 ROCK_SPIKE_PARTS = ('base', 'middle', 'tip')
 SAND_BLOCK_TYPES = ('brown', 'white', 'black', 'red', 'yellow', 'green', 'pink')
 SANDSTONE_BLOCK_TYPES = ('raw', 'smooth', 'cut')
 SOIL_BLOCK_TYPES = (
-'dirt', 'grass', 'grass_path', 'clay', 'clay_grass', 'farmland', 'rooted_dirt', 'mud', 'mud_bricks', 'drying_bricks',
-'muddy_roots')
+    'dirt', 'grass', 'grass_path', 'clay', 'clay_grass', 'farmland', 'rooted_dirt', 'mud', 'mud_bricks', 'drying_bricks',
+    'muddy_roots')
 SOIL_BLOCK_VARIANTS = ('silt', 'loam', 'sandy_loam', 'silty_loam')
 KAOLIN_CLAY_TYPES = ('red', 'pink', 'white')
 SOIL_BLOCK_TAGS: Dict[str, List[str]] = {
@@ -591,14 +593,14 @@ ORE_DEPOSITS = ('native_copper', 'cassiterite', 'native_silver', 'native_gold')
 GEMS = ('amethyst', 'diamond', 'emerald', 'lapis_lazuli', 'opal', 'pyrite', 'ruby', 'sapphire', 'topaz')
 TRIM_MATERIALS = (*GEMS, 'rose_gold', 'gold', 'silver', 'sterling_silver', 'bismuth')
 MISC_GROUNDCOVER = (
-'bone', 'clam', 'driftwood', 'mollusk', 'mussel', 'pinecone', 'seaweed', 'stick', 'dead_grass', 'feather', 'flint',
-'guano', 'humus', 'rotten_flesh', 'salt_lick', 'sea_urchin')
+    'bone', 'clam', 'driftwood', 'mollusk', 'mussel', 'pinecone', 'seaweed', 'stick', 'dead_grass', 'feather', 'flint',
+    'guano', 'humus', 'rotten_flesh', 'salt_lick', 'sea_urchin')
 COLORS = (
-'white', 'orange', 'magenta', 'light_blue', 'yellow', 'lime', 'pink', 'gray', 'light_gray', 'cyan', 'purple', 'blue',
-'brown', 'green', 'red', 'black')
+    'white', 'orange', 'magenta', 'light_blue', 'yellow', 'lime', 'pink', 'gray', 'light_gray', 'cyan', 'purple', 'blue',
+    'brown', 'green', 'red', 'black')
 SIMPLE_FLUIDS = (
-'brine', 'curdled_milk', 'limewater', 'lye', 'milk_vinegar', 'olive_oil', 'olive_oil_water', 'tallow', 'tannin',
-'vinegar')
+    'brine', 'curdled_milk', 'limewater', 'lye', 'milk_vinegar', 'olive_oil', 'olive_oil_water', 'tallow', 'tannin',
+    'vinegar')
 ALCOHOLS = ('beer', 'cider', 'rum', 'sake', 'vodka', 'whiskey', 'corn_whiskey', 'rye_whiskey')
 
 WOODS: Dict[str, Wood] = {
@@ -767,12 +769,12 @@ PLANTS: Dict[str, Plant] = {
 }
 
 SMALL_FLOWERS = (
-'allium', 'anthurium', 'black_orchid', 'blood_lily', 'blue_orchid', 'blue_ginger', 'butterfly_milkweed', 'calendula',
-'canna', 'dandelion', 'desert_flame', 'goldenrod', 'grape_hyacinth', 'guzmania', 'kangaroo_paw', 'labrador_tea',
-'lily_of_the_valley', 'lotus', 'nasturtium', 'oxeye_daisy', 'pistia', 'poppy', 'primrose', 'pulsatilla', 'rose',
-'sacred_datura', 'sagebrush', 'sapphire_tower', 'sargassum', 'silver_spurflower', 'snapdragon_red', 'snapdragon_pink',
-'snapdragon_white', 'snapdragon_yellow', 'strelitzia', 'trillium', 'tropical_milkweed', 'tulip_orange', 'tulip_red',
-'tulip_pink', 'tulip_white', 'vriesea', 'water_lily', 'yucca')
+    'allium', 'anthurium', 'black_orchid', 'blood_lily', 'blue_orchid', 'blue_ginger', 'butterfly_milkweed', 'calendula',
+    'canna', 'dandelion', 'desert_flame', 'goldenrod', 'grape_hyacinth', 'guzmania', 'kangaroo_paw', 'labrador_tea',
+    'lily_of_the_valley', 'lotus', 'nasturtium', 'oxeye_daisy', 'pistia', 'poppy', 'primrose', 'pulsatilla', 'rose',
+    'sacred_datura', 'sagebrush', 'sapphire_tower', 'sargassum', 'silver_spurflower', 'snapdragon_red', 'snapdragon_pink',
+    'snapdragon_white', 'snapdragon_yellow', 'strelitzia', 'trillium', 'tropical_milkweed', 'tulip_orange', 'tulip_red',
+    'tulip_pink', 'tulip_white', 'vriesea', 'water_lily', 'yucca')
 
 TALL_FLOWERS = ('foxglove', 'hibiscus', 'lilac', 'toquilla_palm', 'marigold')
 
@@ -954,14 +956,14 @@ DISC_COLORS = {
 
 SIMPLE_BLOCKS = ('peat', 'aggregate', 'fire_bricks', 'fire_clay_block')
 SIMPLE_ITEMS = (
-'alabaster_brick', 'blank_disc', 'blubber', 'brass_mechanisms', 'burlap_cloth', 'compost', 'daub', 'dirty_jute_net',
-'empty_jar', 'empty_jar_with_lid', 'fire_clay', 'goat_horn', 'gem_saw', 'glow_arrow', 'glue', 'hematitic_glass_batch',
-'jacks', 'jar_lid',
-'jute', 'jute_fiber', 'jute_net', 'kaolin_clay', 'lamp_glass', 'lens', 'mortar', 'olive_paste', 'olivine_glass_batch',
-'paddle', 'papyrus', 'papyrus_strip', 'pure_nitrogen', 'pure_phosphorus', 'pure_potassium', 'rotten_compost',
-'silica_glass_batch', 'silk_cloth', 'soaked_papyrus_strip', 'soot', 'spindle',
-'stick_bunch', 'stick_bundle', 'straw', 'unrefined_paper', 'volcanic_glass_batch', 'wool', 'wool_cloth', 'wool_yarn',
-'wrought_iron_grill')
+    'alabaster_brick', 'blank_disc', 'blubber', 'brass_mechanisms', 'burlap_cloth', 'compost', 'daub', 'dirty_jute_net',
+    'empty_jar', 'empty_jar_with_lid', 'fire_clay', 'goat_horn', 'gem_saw', 'glow_arrow', 'glue', 'hematitic_glass_batch',
+    'jacks', 'jar_lid',
+    'jute', 'jute_fiber', 'jute_net', 'kaolin_clay', 'lamp_glass', 'lens', 'mortar', 'olive_paste', 'olivine_glass_batch',
+    'paddle', 'papyrus', 'papyrus_strip', 'pure_nitrogen', 'pure_phosphorus', 'pure_potassium', 'rotten_compost',
+    'silica_glass_batch', 'silk_cloth', 'soaked_papyrus_strip', 'soot', 'spindle',
+    'stick_bunch', 'stick_bundle', 'straw', 'unrefined_paper', 'volcanic_glass_batch', 'wool', 'wool_cloth', 'wool_yarn',
+    'wrought_iron_grill')
 GENERIC_POWDERS = {
     'charcoal': 'black',
     'coke': 'black',
@@ -972,8 +974,8 @@ GENERIC_POWDERS = {
 }
 POWDERS = ('flux', 'lime', 'salt', 'saltpeter', 'soda_ash', 'sulfur', 'wood_ash')
 GLASSWORKING_POWDERS = (
-'soda_ash', 'sulfur', 'graphite', 'hematite', 'limonite', 'magnetite', 'native_gold', 'native_copper', 'malachite',
-'tetrahedrite', 'cassiterite', 'garnierite', 'native_silver', 'amethyst', 'ruby', 'lapis_lazuli', 'pyrite', 'sapphire')
+    'soda_ash', 'sulfur', 'graphite', 'hematite', 'limonite', 'magnetite', 'native_gold', 'native_copper', 'malachite',
+    'tetrahedrite', 'cassiterite', 'garnierite', 'native_silver', 'amethyst', 'ruby', 'lapis_lazuli', 'pyrite', 'sapphire')
 VANILLA_DYED_ITEMS = ('wool', 'carpet', 'bed', 'terracotta', 'banner', 'glazed_terracotta')
 SIMPLE_POTTERY = ('bowl', 'fire_brick', 'pot', 'spindle_head', 'vessel')
 SIMPLE_UNFIRED_POTTERY = ('brick', 'crucible', 'flower_pot', 'jug', 'pan', 'blowpipe')
@@ -983,12 +985,12 @@ SHORE_DECORATORS = ('driftwood', 'clam', 'mollusk', 'mussel', 'seaweed', 'sticks
 FOREST_DECORATORS = ('sticks_forest', 'pinecone', 'salt_lick', 'dead_grass', 'humus', 'rotten_flesh')
 OCEAN_PLANT_TYPES = ('grass_water', 'floating', 'water', 'emergent', 'tall_water')
 MISC_PLANT_FEATURES = (
-'hanging_vines', 'hanging_vines_cave', 'spanish_moss', 'saguaro_patch', 'jungle_vines', 'liana', 'moss_cover',
-'reindeer_lichen_cover', 'morning_glory_cover', 'philodendron_cover', 'tree_fern', 'arundo')
+    'hanging_vines', 'hanging_vines_cave', 'spanish_moss', 'saguaro_patch', 'jungle_vines', 'liana', 'moss_cover',
+    'reindeer_lichen_cover', 'morning_glory_cover', 'philodendron_cover', 'tree_fern', 'arundo')
 SURFACE_GRASS_FEATURES = ('fountain_', 'orchard_', 'rye', 'scutch_', 'timothy_', 'brome', 'blue', 'raddia_')
 UNDERGROUND_FEATURES = (
-'cave_column', 'cave_spike', 'large_cave_spike', 'water_spring', 'lava_spring', 'calcite', 'mega_calcite', 'icicle',
-'underground_loose_rocks', 'underground_guano_patch')
+    'cave_column', 'cave_spike', 'large_cave_spike', 'water_spring', 'lava_spring', 'calcite', 'mega_calcite', 'icicle',
+    'underground_loose_rocks', 'underground_guano_patch')
 
 # todo: bush hydration / rainfall separation and proper ranges
 # When this gest updated, it needs to be updated in both the book (generate_book.py) and in the climate range (data.py) to use the new hydration and rainfall values
@@ -1022,45 +1024,45 @@ JAR_FRUITS: List[str] = [*BERRIES.keys(), *FRUITS.keys(), 'pumpkin_chunks', 'mel
 NORMAL_FRUIT_TREES: List[str] = [k for k in FRUITS.keys() if k != 'banana']
 
 SIMPLE_FRESHWATER_FISH = (
-'bluegill', 'crappie', 'lake_trout', 'largemouth_bass', 'rainbow_trout', 'salmon', 'smallmouth_bass',)
+    'bluegill', 'crappie', 'lake_trout', 'largemouth_bass', 'rainbow_trout', 'salmon', 'smallmouth_bass',)
 
 GRAINS = ('barley', 'maize', 'oat', 'rice', 'rye', 'wheat')
 GRAIN_SUFFIXES = ('', '_grain', '_flour', '_dough', '_bread', '_bread_sandwich', '_bread_jam_sandwich')
 MISC_FOODS = (
-'beet', 'cabbage', 'carrot', 'garlic', 'green_bean', 'green_bell_pepper', 'onion', 'potato', 'red_bell_pepper',
-'soybean', 'squash', 'tomato', 'yellow_bell_pepper', 'cheese', 'cooked_egg', 'boiled_egg', 'fresh_seaweed',
-'dried_seaweed', 'dried_kelp', 'cattail_root', 'taro_root', 'sugarcane', 'cooked_rice', 'pumpkin_chunks', 'melon_slice')
+    'beet', 'cabbage', 'carrot', 'garlic', 'green_bean', 'green_bell_pepper', 'onion', 'potato', 'red_bell_pepper',
+    'soybean', 'squash', 'tomato', 'yellow_bell_pepper', 'cheese', 'cooked_egg', 'boiled_egg', 'fresh_seaweed',
+    'dried_seaweed', 'dried_kelp', 'cattail_root', 'taro_root', 'sugarcane', 'cooked_rice', 'pumpkin_chunks', 'melon_slice')
 MEATS = ('beef', 'pork', 'chicken', 'quail', 'mutton', 'bear', 'horse_meat', 'pheasant', 'turkey', 'peafowl', 'grouse',
          'venison', 'wolf', 'rabbit', 'hyena', 'duck', 'chevon', 'gran_feline', 'camelidae', 'cod', 'tropical_fish',
          'turtle', 'calamari', 'shellfish', *SIMPLE_FRESHWATER_FISH, 'frog_legs')
 NUTRIENTS = ('grain', 'fruit', 'vegetables', 'protein', 'dairy')
 
 SPAWN_EGG_ENTITIES = (
-'isopod', 'lobster', 'crayfish', 'cod', 'pufferfish', 'tropical_fish', 'jellyfish', 'orca', 'dolphin', 'manatee',
-'penguin', 'frog', 'turtle', 'horseshoe_crab', 'polar_bear', 'grizzly_bear', 'black_bear', 'cougar', 'panther', 'lion',
-'sabertooth', 'squid', 'octopoteuthis', 'pig', 'cow', 'goat', 'yak', 'alpaca', 'musk_ox', 'sheep', 'chicken', 'duck',
-'quail', 'rabbit', 'fox', 'boar', 'donkey', 'mule', 'horse', 'deer', 'moose', 'boar', 'rat', 'cat', 'dog', 'wolf',
-'panda', 'grouse', 'pheasant', 'turkey', 'ocelot', 'direwolf', 'hyena', 'tiger', 'bongo', 'caribou', 'gazelle',
-'wildebeest', 'peafowl', *SIMPLE_FRESHWATER_FISH)
+    'isopod', 'lobster', 'crayfish', 'cod', 'pufferfish', 'tropical_fish', 'jellyfish', 'orca', 'dolphin', 'manatee',
+    'penguin', 'frog', 'turtle', 'horseshoe_crab', 'polar_bear', 'grizzly_bear', 'black_bear', 'cougar', 'panther', 'lion',
+    'sabertooth', 'squid', 'octopoteuthis', 'pig', 'cow', 'goat', 'yak', 'alpaca', 'musk_ox', 'sheep', 'chicken', 'duck',
+    'quail', 'rabbit', 'fox', 'boar', 'donkey', 'mule', 'horse', 'deer', 'moose', 'boar', 'rat', 'cat', 'dog', 'wolf',
+    'panda', 'grouse', 'pheasant', 'turkey', 'ocelot', 'direwolf', 'hyena', 'tiger', 'bongo', 'caribou', 'gazelle',
+    'wildebeest', 'peafowl', *SIMPLE_FRESHWATER_FISH)
 BUCKETABLE_FISH = ('cod', 'pufferfish', 'tropical_fish', 'jellyfish', *SIMPLE_FRESHWATER_FISH)
 LAND_PREDATORS = (
-'polar_bear', 'grizzly_bear', 'black_bear', 'cougar', 'panther', 'lion', 'sabertooth', 'wolf', 'direwolf', 'ocelot',
-'tiger', 'hyena')
+    'polar_bear', 'grizzly_bear', 'black_bear', 'cougar', 'panther', 'lion', 'sabertooth', 'wolf', 'direwolf', 'ocelot',
+    'tiger', 'hyena')
 OCEAN_PREDATORS = ('dolphin', 'orca')
 OCEAN_PREY = ('isopod', 'lobster', 'crayfish', 'cod', 'tropical_fish', 'horseshoe_crab', *SIMPLE_FRESHWATER_FISH)
 LIVESTOCK = (
-'pig', 'cow', 'goat', 'yak', 'alpaca', 'sheep', 'musk_ox', 'chicken', 'duck', 'quail', 'horse', 'mule', 'donkey')
+    'pig', 'cow', 'goat', 'yak', 'alpaca', 'sheep', 'musk_ox', 'chicken', 'duck', 'quail', 'horse', 'mule', 'donkey')
 LAND_PREY = (
-'rabbit', 'fox', 'turtle', 'penguin', 'frog', 'deer', 'bongo', 'panda', 'grouse', 'pheasant', 'turkey', 'ocelot',
-'caribou', 'gazelle', 'peafowl')
+    'rabbit', 'fox', 'turtle', 'penguin', 'frog', 'deer', 'bongo', 'panda', 'grouse', 'pheasant', 'turkey', 'ocelot',
+    'caribou', 'gazelle', 'peafowl')
 LAND_NEUTRALS = ('boar', 'moose', 'wildebeest')
 
 BLOCK_ENTITIES = (
-'log_pile', 'burning_log_pile', 'placed_item', 'pit_kiln', 'charcoal_forge', 'quern', 'scraping', 'crucible', 'bellows',
-'composter', 'chest', 'trapped_chest', 'barrel', 'loom', 'sluice', 'tool_rack', 'sign', 'lamp', 'berry_bush', 'crop',
-'firepit', 'pot', 'grill', 'pile', 'farmland', 'tick_counter', 'nest_box', 'bloomery', 'bloom', 'anvil', 'ingot_pile',
-'sheet_pile', 'blast_furnace', 'large_vessel', 'powderkeg', 'bowl', 'hot_poured_glass', 'glass_basin', 'axle',
-'hand_wheel')
+    'log_pile', 'burning_log_pile', 'placed_item', 'pit_kiln', 'charcoal_forge', 'quern', 'scraping', 'crucible', 'bellows',
+    'composter', 'chest', 'trapped_chest', 'barrel', 'loom', 'sluice', 'tool_rack', 'sign', 'lamp', 'berry_bush', 'crop',
+    'firepit', 'pot', 'grill', 'pile', 'farmland', 'tick_counter', 'nest_box', 'bloomery', 'bloom', 'anvil', 'ingot_pile',
+    'sheet_pile', 'blast_furnace', 'large_vessel', 'powderkeg', 'bowl', 'hot_poured_glass', 'glass_basin', 'axle',
+    'hand_wheel')
 TANNIN_WOOD_TYPES = ('oak', 'birch', 'chestnut', 'douglas_fir', 'hickory', 'maple', 'sequoia')
 
 
@@ -1164,14 +1166,14 @@ VANILLA_MONSTERS: Dict[str, Dict[str, Any]] = {
 }
 
 DISABLED_VANILLA_RECIPES = (
-'flint_and_steel', 'turtle_helmet', 'campfire', 'bucket', 'composter', 'tinted_glass', 'glass_pane', 'enchanting_table',
-'bowl', 'blaze_rod', 'bone_meal', 'flower_pot', 'painting', 'torch', 'soul_torch', 'sticky_piston', 'clock', 'compass',
-'white_wool_from_string', 'hay_block', 'anvil', 'wheat', 'lapis_lazuli', 'leather_horse_armor', 'map', 'furnace',
-'jack_o_lantern', 'melon_seeds', 'melon', 'pumpkin_pie', 'chest', 'barrel', 'trapped_chest', 'bricks', 'bookshelf',
-'crafting_table', 'lectern', 'chest_minecart', 'rail', 'beetroot_soup', 'mushroom_stew',
-'rabbit_stew_from_red_mushroom', 'rabbit_stew_from_brown_mushroom', 'suspicious_stew', 'scaffolding', 'bow',
-'glass_bottle', 'fletching_table', 'shield', 'lightning_rod', 'fishing_rod', 'iron_door', 'iron_trapdoor', 'spyglass',
-'slime_ball', 'smoker', 'soul_campfire', 'loom')
+    'flint_and_steel', 'turtle_helmet', 'campfire', 'bucket', 'composter', 'tinted_glass', 'glass_pane', 'enchanting_table',
+    'bowl', 'blaze_rod', 'bone_meal', 'flower_pot', 'painting', 'torch', 'soul_torch', 'sticky_piston', 'clock', 'compass',
+    'white_wool_from_string', 'hay_block', 'anvil', 'wheat', 'lapis_lazuli', 'leather_horse_armor', 'map', 'furnace',
+    'jack_o_lantern', 'melon_seeds', 'melon', 'pumpkin_pie', 'chest', 'barrel', 'trapped_chest', 'bricks', 'bookshelf',
+    'crafting_table', 'lectern', 'chest_minecart', 'rail', 'beetroot_soup', 'mushroom_stew',
+    'rabbit_stew_from_red_mushroom', 'rabbit_stew_from_brown_mushroom', 'suspicious_stew', 'scaffolding', 'bow',
+    'glass_bottle', 'fletching_table', 'shield', 'lightning_rod', 'fishing_rod', 'iron_door', 'iron_trapdoor', 'spyglass',
+    'slime_ball', 'smoker', 'soul_campfire', 'loom')
 ARMOR_SECTIONS = ('chestplate', 'leggings', 'boots', 'helmet')
 TFC_ARMOR_SECTIONS = ('helmet', 'chestplate', 'greaves', 'boots')
 VANILLA_ARMOR_TYPES = ('leather', 'golden', 'iron', 'diamond', 'netherite')
@@ -1180,16 +1182,16 @@ MOB_ARMOR_METALS = ('copper', 'bronze', 'black_bronze', 'bismuth_bronze', 'wroug
 MOB_TOOLS = ('axe', 'sword', 'javelin', 'mace', 'scythe')
 STONE_MOB_TOOLS = ('axe', 'javelin')
 TFC_BIOMES = (
-'badlands', 'inverted_badlands', 'canyons', 'low_canyons', 'plains', 'plateau', 'hills', 'rolling_hills', 'lake',
-'lowlands', 'salt_marsh', 'mountains', 'volcanic_mountains', 'old_mountains', 'oceanic_mountains',
-'volcanic_oceanic_mountains', 'ocean', 'ocean_reef', 'deep_ocean', 'deep_ocean_trench', 'river', 'shore', 'tidal_shore',
-'mountain_river', 'volcanic_mountain_river', 'old_mountain_river', 'oceanic_mountain_river',
-'volcanic_oceanic_mountain_river', 'mountain_lake', 'volcanic_mountain_lake', 'old_mountain_lake',
-'oceanic_mountain_lake', 'volcanic_oceanic_mountain_lake', 'plateau_lake')
+    'badlands', 'inverted_badlands', 'canyons', 'low_canyons', 'plains', 'plateau', 'hills', 'rolling_hills', 'lake',
+    'lowlands', 'salt_marsh', 'mountains', 'volcanic_mountains', 'old_mountains', 'oceanic_mountains',
+    'volcanic_oceanic_mountains', 'ocean', 'ocean_reef', 'deep_ocean', 'deep_ocean_trench', 'river', 'shore', 'tidal_shore',
+    'mountain_river', 'volcanic_mountain_river', 'old_mountain_river', 'oceanic_mountain_river',
+    'volcanic_oceanic_mountain_river', 'mountain_lake', 'volcanic_mountain_lake', 'old_mountain_lake',
+    'oceanic_mountain_lake', 'volcanic_oceanic_mountain_lake', 'plateau_lake')
 PAINTINGS = ('golden_field', 'hot_spring', 'lake', 'supports', 'volcano')
 VANILLA_TRIMS = (
-'coast', 'sentry', 'dune', 'wild', 'ward', 'eye', 'vex', 'tide', 'snout', 'rib', 'spire', 'wayfinder', 'shaper',
-'silence', 'raiser', 'host')
+    'coast', 'sentry', 'dune', 'wild', 'ward', 'eye', 'vex', 'tide', 'snout', 'rib', 'spire', 'wayfinder', 'shaper',
+    'silence', 'raiser', 'host')
 
 ALLOYS: Dict[str, Tuple[Tuple[str, float, float], ...]] = {
     'bismuth_bronze': (('zinc', 0.2, 0.3), ('copper', 0.5, 0.65), ('bismuth', 0.1, 0.2)),
@@ -1200,7 +1202,7 @@ ALLOYS: Dict[str, Tuple[Tuple[str, float, float], ...]] = {
     'sterling_silver': (('copper', 0.2, 0.4), ('silver', 0.6, 0.8)),
     'weak_steel': (('steel', 0.5, 0.7), ('nickel', 0.15, 0.25), ('black_bronze', 0.15, 0.25)),
     'weak_blue_steel': (
-    ('black_steel', 0.5, 0.55), ('steel', 0.2, 0.25), ('bismuth_bronze', 0.1, 0.15), ('sterling_silver', 0.1, 0.15)),
+        ('black_steel', 0.5, 0.55), ('steel', 0.2, 0.25), ('bismuth_bronze', 0.1, 0.15), ('sterling_silver', 0.1, 0.15)),
     'weak_red_steel': (('black_steel', 0.5, 0.55), ('steel', 0.2, 0.25), ('brass', 0.1, 0.15), ('rose_gold', 0.1, 0.15))
 }
 
@@ -1808,16 +1810,16 @@ DEFAULT_LANG = {
     **dict(('tfc.enum.tier.tier_%s' % tier, 'Tier %s' % tier.upper()) for tier in
            ('0', 'i', 'ii', 'iii', 'iv', 'v', 'vi')),
     **lang_enum('heat', (
-    'warming', 'hot', 'very_hot', 'faint_red', 'dark_red', 'bright_red', 'orange', 'yellow', 'yellow_white', 'white',
-    'brilliant_white')),
+        'warming', 'hot', 'very_hot', 'faint_red', 'dark_red', 'bright_red', 'orange', 'yellow', 'yellow_white', 'white',
+        'brilliant_white')),
     **lang_enum('month', (
-    'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november',
-    'december')),
+        'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november',
+        'december')),
     **lang_enum('day', ('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday')),
     **lang_enum('foresttype', ('sparse', 'old_growth', 'normal', 'edge', 'none')),
     **lang_enum('koppenclimateclassification', (
-    'arctic', 'tundra', 'humid_subarctic', 'subarctic', 'cold_desert', 'hot_desert', 'temperate', 'subtropical',
-    'humid_subtropical', 'humid_oceanic', 'humid_subtropical', 'tropical_savanna', 'tropical_rainforest')),
+        'arctic', 'tundra', 'humid_subarctic', 'subarctic', 'cold_desert', 'hot_desert', 'temperate', 'subtropical',
+        'humid_subtropical', 'humid_oceanic', 'humid_subtropical', 'tropical_savanna', 'tropical_rainforest')),
     **lang_enum('direction', ('north', 'south', 'east', 'west', 'down', 'up')),
     'tfc.enum.season.january': 'Winter',
     'tfc.enum.season.february': 'Late Winter',
