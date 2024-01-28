@@ -3,6 +3,9 @@
   "ingredient": [
     {
       "item": "minecraft:coal"
+    },
+    {
+      "item": "tfc:ore/bituminous_coal"
     }
   ],
   "duration": 2200,

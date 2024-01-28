@@ -27,7 +27,7 @@ apply plugin: 'org.spongepowered.mixin'
 
 
 
-version = '0.4.0-1.20.1'
+version = '0.5.0-1.20.1'
 group = 'kenza.tfg_ores' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'tfg_ores'
 
@@ -242,7 +242,7 @@ jar {
 
 task copyJar(type: Copy) {
     from jar // here it automatically reads jar file produced from jar task
-    into 'C:\\Users\\Dmitry\\AppData\\Roaming\\PollyMC\\instances\\TerraFirmaGreg-1.20-0.1.2-cf\\minecraft\\mods'
+    into 'C:\\Users\\Dmitry\\AppData\\Roaming\\.minecraft3\\mods'
 }
 
 build.dependsOn copyJar

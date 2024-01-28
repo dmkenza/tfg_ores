@@ -57,7 +57,9 @@ public enum KOre
     SCHEELITE(true),
     PALLADIUM(true),
     POWELLITE(true),
-    NAQUADAH(true);
+    NAQUADAH(true),
+    URANINITE(true),
+    PITCHBLENDE(true);
 
 
     private final boolean graded;

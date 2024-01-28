@@ -1,0 +1,56 @@
+{
+   "type":"gtceu:coke_oven",
+   "duration":900,
+   "inputs":{
+      "item":[
+         {
+            "content":{
+               "type":"gtceu:sized",
+               "fabric:type":"gtceu:sized",
+               "count":1,
+               "ingredient":{
+                  "item":"tfc:ore/bituminous_coal"
+               }
+            },
+            "chance":1.0,
+            "tierChanceBoost":0.0
+         }
+      ]
+   },
+   "outputs":{
+      "fluid":[
+         {
+            "content":{
+               "amount":500,
+               "value":[
+                  {
+                     "fluid":"gtceu:creosote"
+                  }
+               ]
+            },
+            "chance":1.0,
+            "tierChanceBoost":0.0
+         }
+      ],
+      "item":[
+         {
+            "content":{
+               "type":"gtceu:sized",
+               "fabric:type":"gtceu:sized",
+               "count":1,
+               "ingredient":{
+                  "item":"gtceu:coke_gem"
+               }
+            },
+            "chance":1.0,
+            "tierChanceBoost":0.0
+         }
+      ]
+   },
+   "tickInputs":{
+      
+   },
+   "tickOutputs":{
+      
+   }
+}

@@ -21,7 +21,8 @@ private val secondsTypes = listOf(
 
 //this metals aren't in Greg. Ignore replacement.
 private val ignoredMetals = listOf(
-    "weak_blue_steel", "weak_red_steel", "weak_steel"
+    "weak_blue_steel", "weak_red_steel", "weak_steel", "pig_iron", "high_carbon_steel", "high_carbon_black_steel",
+    "high_carbon_blue_steel", "high_carbon_red_steel"
 )
 
 fun replaceGregCasting() {

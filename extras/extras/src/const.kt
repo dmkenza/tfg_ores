@@ -69,5 +69,7 @@ val ORES = listOf(
     "scheelite",
     "palladium",
     "powellite",
-    "naquadah"
+    "naquadah",
+    "uraninite",
+    "pitchblende"
 )

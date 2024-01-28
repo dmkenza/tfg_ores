@@ -2,9 +2,9 @@
   "__comment__": "This file was automatically created by mcresources",
   "ingredient": [
     {
-      "tag": "forge:gems/coke"
+      "item": "gtceu:coke_gem"
     }
   ],
   "duration": 4400,
-  "temperature": 1415
+  "temperature": 2300
 }
