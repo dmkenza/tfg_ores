@@ -307,7 +307,7 @@ METAL_TOOL_HEADS = (
     'chisel', 'hammer', 'hoe', 'javelin', 'knife', 'mace', 'pickaxe', 'propick', 'saw', 'scythe', 'shovel', 'sword', 'axe')
 
 ORES: Dict[str, Ore] = {
-    'galena': Ore('lead', True, 'copper', 'lead'),
+    'galena': Ore('x', True, 'copper', 'lead'),
     'stibnite': Ore('x', True, 'copper', 'stibnite'),
     'zeolite': Ore('x', True, 'copper', 'zeolite'),
 

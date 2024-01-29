@@ -37,7 +37,7 @@
             "content":{
                "type":"gtceu:sized",
                "fabric:type":"gtceu:sized",
-               "count":1,
+               "count":2,
                "ingredient":{
                   "item":"gtceu:coke_gem"
                }

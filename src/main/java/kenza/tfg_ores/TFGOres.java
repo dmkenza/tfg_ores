@@ -2,7 +2,6 @@ package kenza.tfg_ores;
 
 import kenza.tfg_ores.tfc.KTFCBlocks;
 import kenza.tfg_ores.tfc.KTFCCreativeTabs;
-import kenza.tfg_ores.tfc.KTFCFluids;
 import kenza.tfg_ores.tfc.KTFCItems;
 import net.dries007.tfc.common.TFCCreativeTabs;
 import net.dries007.tfc.common.fluids.TFCFluids;
@@ -31,8 +30,8 @@ public class TFGOres
 
         KTFCBlocks.BLOCKS.register(bus);
         KTFCItems.ITEMS.register(bus);
-        KTFCFluids.FLUIDS.register(bus);
-        KTFCFluids.FLUID_TYPES.register(bus);
+//        KTFCFluids.FLUIDS.register(bus);
+//        KTFCFluids.FLUID_TYPES.register(bus);
         KTFCCreativeTabs.CREATIVE_TABS.register(bus);
 
 

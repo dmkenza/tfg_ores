@@ -61,9 +61,9 @@ public final class KTFCItems
 
     // Fluid Buckets
 
-    public static final Map<KFluidId, RegistryObject<BucketItem>> FLUID_BUCKETS = KFluidId.mapOf(fluid ->
-            KTFCItems.register("bucket/" + fluid.name(), () -> new BucketItem(fluid.fluid(), new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)))
-    );
+//    public static final Map<KFluidId, RegistryObject<BucketItem>> FLUID_BUCKETS = KFluidId.mapOf(fluid ->
+//            KTFCItems.register("bucket/" + fluid.name(), () -> new BucketItem(fluid.fluid(), new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)))
+//    );
 
 
     public static <T extends EntityType<? extends Mob>> RegistryObject<Item> registerSpawnEgg(RegistryObject<T> entity, int color1, int color2)

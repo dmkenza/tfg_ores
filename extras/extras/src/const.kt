@@ -28,8 +28,8 @@ val ORIG_METALS = listOf(
     "high_carbon_blue_steel", "high_carbon_red_steel"
 )
 
-val METALS = listOf(
-    "lead"
+val METALS = listOf<String>(
+   // "lead"
 )
 
 val ORES = listOf(

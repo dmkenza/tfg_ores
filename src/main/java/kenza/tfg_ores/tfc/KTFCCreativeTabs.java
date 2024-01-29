@@ -43,7 +43,7 @@ public final class KTFCCreativeTabs
 //    public static final CreativeTabHolder EARTH = register("earth", () -> new ItemStack(TFCBlocks.ROCK_BLOCKS.get(Rock.QUARTZITE).get(Rock.BlockType.RAW).get()), TFCCreativeTabs::fillEarthTab);
     public static final CreativeTabHolder ORES = register("ores_tfg", () -> new ItemStack(KTFCItems.GRADED_ORES.get(KOre.ALUNITE).get(KOre.Grade.NORMAL).get()), KTFCCreativeTabs::fillOresTab);
 //    public static final CreativeTabHolder ROCKS = register("rock", () -> new ItemStack(TFCBlocks.ROCK_BLOCKS.get(Rock.ANDESITE).get(Rock.BlockType.RAW).get()), TFCCreativeTabs::fillRocksTab);
-    public static final CreativeTabHolder METAL = register("metals_tfg", () -> new ItemStack(KTFCItems.METAL_ITEMS.get(KMetal.Default.LEAD).get(KMetal.ItemType.INGOT).get()), KTFCCreativeTabs::fillMetalTab);
+//    public static final CreativeTabHolder METAL = register("metals_tfg", () -> new ItemStack(KTFCItems.METAL_ITEMS.get(KMetal.Default.LEAD).get(KMetal.ItemType.INGOT).get()), KTFCCreativeTabs::fillMetalTab);
 //    public static final CreativeTabHolder WOOD = register("wood", () -> new ItemStack(TFCBlocks.WOODS.get(Wood.DOUGLAS_FIR).get(Wood.BlockType.LOG).get()), TFCCreativeTabs::fillWoodTab);
 //    public static final CreativeTabHolder FOOD = register("food", () -> new ItemStack(TFCItems.FOOD.get(Food.RED_APPLE).get()), TFCCreativeTabs::fillFoodTab);
 //    public static final CreativeTabHolder FLORA = register("flora", () -> new ItemStack(TFCBlocks.PLANTS.get(Plant.GOLDENROD).get()), TFCCreativeTabs::fillPlantsTab);

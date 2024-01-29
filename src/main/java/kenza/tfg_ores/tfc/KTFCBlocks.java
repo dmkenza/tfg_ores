@@ -84,9 +84,9 @@ public final class KTFCBlocks {
 
     // Fluids
 
-    public static final Map<KMetal.Default, RegistryObject<LiquidBlock>> METAL_FLUIDS = Helpers.mapOfKeys(KMetal.Default.class, metal ->
-            registerNoItem("fluid/metal/" + metal.name(), () -> new LiquidBlock(KTFCFluids.METALS.get(metal).source(), Properties.copy(Blocks.LAVA).noLootTable()))
-    );
+//    public static final Map<KMetal.Default, RegistryObject<LiquidBlock>> METAL_FLUIDS = Helpers.mapOfKeys(KMetal.Default.class, metal ->
+//            registerNoItem("fluid/metal/" + metal.name(), () -> new LiquidBlock(KTFCFluids.METALS.get(metal).source(), Properties.copy(Blocks.LAVA).noLootTable()))
+//    );
 
 
 
